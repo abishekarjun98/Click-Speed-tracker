@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+
+body
+{
+  background-color: #9fff80;
+  font-family: "Times New Roman";
+}
+div#memory_board{
+  background:#ffffff;
+  border:#999 1px solid;
+  width:400px;
+  height:320px;
+  margin:auto;
+  animation-name: movement;
+  animation-duration: 10s;
+ 
+}
+
+
+@media only screen and (max-width: 500px) {
+  body {
+    background-color: lightblue;
+  }
+}
+
+.abcd
+{
+  width:80px;
+  height:80px;
+  border-radius: 8px;
+  
+}
+
+.diff
+{
+
+width: 70px;
+height: 70px;
+margin-left:00px;
+margin-top: 0px;
+border-radius: 10px;
+}
+
+#Timec
+{
+  margin-left: 900px;
+}
+
+#displayscore
+{
+  width: 60px;
+  height: 20px;
+  border-radius: 8px;
+ margin-top: 30px;
+  margin-left: 1000px;
+}
+
+#highScoresList
+{
+  width: 200px;
+  height: 80px;
+  margin-left: 900px;
+  margin-top:5px;
+}
+
+
+
+@keyframes movement {
+  0%   {left:0px; top:0px;}
+  50%  { left:200px; top:0px;}
+  100%  { left:400px; top:0px;}
+
+}
+
+@media(max-width: 600px)
+{
+  #Timec
+{
+  margin-left: 0px;
+}
+
+div#memory_board{
+  background:#CCC;
+  border:#999 1px solid;
+  width:200px;
+  height:200px;
+  padding:24px;
+  margin:0px auto;
+}
+
+
+.abcd
+{
+  width:40px;
+  height:40px;
+  border-radius: 8px;
+}
+
+
+}
+
+
+
+</style>
+<script>
+
+ var count=0;
+ var modestr;
+
+
+
+var elapsedTime;
+
+
+
+function begintimer()
+{
+  var startTime = Date.now();
+var interval = setInterval(function() {
+     elapsedTime = Date.now() - startTime;
+    document.getElementById("timer").innerHTML = (elapsedTime / 1000).toFixed(3);
+    
+}, 100);
+}
+
+let memory_array = [];
+
+function f1()
+{
+  
+  begintimer();
+  createarr(20,"EASY");
+
+  //modestr=;
+//var modestr = modestr.concat("EASY");
+}
+function f2()
+{
+
+begintimer();
+createarr(40,"MEDIUM");
+//modestr=";
+}
+function f3()
+{
+ 
+ begintimer();
+ createarr(60,"HARD");
+ //modestr="HARD";
+}
+
+function createarr(dim,typemode)
+{
+  while(memory_array.length < dim)
+  {
+    var r = Math.floor(Math.random() * dim ) + 1;
+    if(memory_array.indexOf(r) === -1) memory_array .push(r);  
+}
+
+str1="MEDIUM";
+var n = str1.localeCompare(typemode);
+
+if(!n)
+{
+ document.getElementById("memory_board").style.width=" 640px";
+ 
+}
+
+str2="HARD";
+var m = str2.localeCompare(typemode);
+
+if(!m)
+{
+ document.getElementById("memory_board").style.width=" 960px";
+ 
+  
+}
+
+  
+  console.log(memory_array);
+
+  console.log(typemode);
+
+  for(var i = 0; i <dim ; i++){
+    
+                  let btn =document.createElement("button");
+                      btn.classList.add("abcd");
+                      var t = document.createTextNode(memory_array[i]);
+
+                      var num=memory_array[i];
+
+                          if(num <10)
+                      {
+                        var col="#39e60"+num;
+                      }
+                      else
+                      {
+                        var col="#39e6"+ num;
+                      }                      
+                      btn.style.background=col;
+                       btn.appendChild(t);
+                       var abc= document.getElementById('memory_board');
+                       abc.appendChild(btn);
+
+btn.onclick=function change()
+ {
+
+console.log(btn.innerHTML);
+
+var snd = new Audio("ping.mp3");
+
+snd.play();
+                         
+                    var a =btn.innerHTML;
+                    
+
+                    if(a-dim +2*dim <= 2*dim)
+                      {
+                    a=a.replace(a,a-dim +2*dim);
+
+                    btn.innerHTML=a;
+                    }
+
+                    else
+                    {
+                      a=a.replace(a,"_");
+
+                    btn.innerHTML=a;
+
+                      count++;
+                      console.log(count);
+
+                  }
+
+if(count==dim)
+{
+
+  var t= document.getElementById("disptime").innerHTML = (elapsedTime / 1000).toFixed(3);
+
+localStorage.setItem('score', t);
+
+const arrscore = {
+    arrscore: t,
+    mode:typemode
+  
+  };
+
+
+  
+
+  const highScores = JSON.parse(localStorage.getItem("highScores")) || [];
+
+  highScores.push(arrscore);
+
+  
+
+  highScores.sort((a, b) => a.arrscore - b.arrscore);
+
+  highScores.splice(5);
+
+  localStorage.setItem("highScores", JSON.stringify(highScores));
+
+
+console.log(highScores);
+alert("Game Over\n"+"Completed In Time:"+t);
+}
+ }    
+ var dis=localStorage.getItem('score');
+ }
+}
+
+
+function refresh()
+{
+  window.location.reload();  
+}
+
+
+function f4()
+{
+const highScoresList = document.getElementById("highScoresList");
+const highScores = JSON.parse(localStorage.getItem("highScores")) || [];
+
+highScoresList.innerHTML = highScores
+  .map(arrscore => {
+
+    return `<li>${arrscore.arrscore} - ${arrscore.mode}</li>`;
+  })
+  .join("");
+}
+
+ 
+</script>
+</head>
+<body>
+
+
+  <span class="diffe">
+<p> CLICK HERE TO, CHOOSE THE DIFFICULTY MODE</p>
+ <BUTTON id="easy" style=" border-radius: 6px;background-color:  #ffffff" onclick="f1()" >
+  EASY  
+</BUTTON>
+<BUTTON id="medium"  style=" border-radius: 6px;background-color:  #ffffff"onclick="f2()">
+  MEDIUM
+</BUTTON>
+<BUTTON id="hard"  style=" border-radius: 6px;background-color:  #ffffff" onclick="f3()">
+  HARD
+</BUTTON>
+
+<br><br>
+ 
+  <div id=Timec> 
+  TIMER:
+  <span id="timer"></span> 
+ 
+ &nbsp &nbsp&nbsp &nbsp
+ <span>RECENT SCORE:</span>
+ 
+  <span id ="disptime">
+  </span>
+  <br><br>
+
+   <BUTTON  style=" border-radius: 6px;background-color:  #ffffff" onclick="refresh()"6>NEW GAME</BUTTON>
+
+<BUTTON  style=" border-radius: 6px;background-color:  #ffffff" onclick="f4()">
+  Display
+</BUTTON>
+</div>
+</span>
+<br>
+
+ 
+<div>
+<ul id ="highScoresList"></ul>
+</div>
+</div>
+
+<div id="memory_board"></div>
+</body>
+</html>
