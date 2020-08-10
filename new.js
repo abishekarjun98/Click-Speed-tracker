@@ -1,5 +1,15 @@
+  
+var socket=io.connect("http://localhost:5000");
+
+var u_name=document.getElementById("u_name");
+var save_btn=document.getElementById("save");
+var output=document.getElementById("output");
+var output2=document.getElementById("output2");
+
+//console.log(output.innerHTML);
 
  var buttonclickedcount=0;
+ var total_buttonclicked=0;
  var difficultymode;
 
 var elapsedTime;
@@ -15,6 +25,7 @@ var interval = setInterval(function() {
 }, 100);
 }
 
+//console.log(document.getElementById("timer").innerHTML);
 
 let memory_array = [];
 
@@ -61,9 +72,9 @@ if(!m)
  document.getElementById("memory_board").style.width=" 960px";
    
 }
-  console.log(memory_array);
+  //console.log(memory_array);
 
-  console.log(typemode);
+  //console.log(typemode);
 
  for(var i = 0; i <dimension ; i++)
  {    
@@ -89,7 +100,7 @@ if(!m)
 btn.onclick=function change()
  {
 
-console.log(btn.innerHTML);
+//console.log(btn.innerHTML);
 
 var sound = new Audio("ping.mp3");
 
@@ -103,6 +114,8 @@ sound.play();
                     a=a.replace(a,a-dimension +2*dimension);
 
                     btn.innerHTML=a;
+                    total_buttonclicked++;
+                    add_count(total_buttonclicked);
                     }
 
                     else
@@ -112,11 +125,13 @@ sound.play();
                     btn.innerHTML=a;
 
                       buttonclickedcount++;
-                      console.log(buttonclickedcount);
+                      total_buttonclicked++;
+                      add_count(total_buttonclicked);
+                      //console.log(buttonclickedcount);
 
                   }
-
-
+console.log(total_buttonclicked+"hahah");
+ 
 if(buttonclickedcount==5)
 {
 
@@ -155,7 +170,7 @@ alert("Game Over\n"+"Completed In Time:"+t);
 
 
 var myobj = document.getElementById("timer");
-myobj.remove();
+//myobj.remove();
 
 
 }
@@ -185,4 +200,46 @@ highScoresList.innerHTML = highScores
   .join("");
 }
 
+
+
+ save_btn.addEventListener("click",function()
+ {
+
+   socket.emit('user_name', {
+      user_name:u_name.value
+      
+  });
+ });
+
+
+ function add_count(count_score)
+ {
+  console.log(count_score+"deiii");
+  socket.emit('user_score', {
+      user_score:count_score
+      
+  });
+
+}
  
+ 
+ 
+
+
+
+ socket.on("user_name",function(data)
+ {
+output.innerHTML+="<p>"+"username  "+data.user_name+"</p>";
+ });
+
+
+
+  socket.on("user_score",function(data)
+ {
+//output2.innerHTML+="<p>"+data.user_score+"</p>";
+var f_score=output2.innerHTML;
+f_score++;
+output2.innerHTML=data.user_score;
+
+ });
+
