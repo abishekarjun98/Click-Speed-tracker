@@ -1,0 +1,112 @@
+
+body
+{
+  background-color: #9fff80;
+  font-family: "Times New Roman";
+}
+
+
+div#memory_board{
+  background:#ffffff;
+  border:#999 1px solid;
+  width:400px;
+  height:320px;
+  margin:auto;
+  
+ 
+}
+
+
+@media only screen and (max-width: 500px) {
+  body {
+    background-color: lightblue;
+  }
+}
+
+
+.abcd
+{
+  width:80px;
+  height:80px;
+  border-radius: 8px;
+  
+}
+
+/*.abcd2
+{
+  width:20px;
+  height: 20px;
+  color: "#ffffff";
+}
+*/
+
+.diff
+{
+
+width: 70px;
+height: 70px;
+margin-left:00px;
+margin-top: 0px;
+border-radius: 10px;
+}
+
+#Timec
+{
+  margin-left: 900px;
+}
+
+#displayscore
+{
+  width: 60px;
+  height: 20px;
+  border-radius: 8px;
+ margin-top: 30px;
+  margin-left: 1000px;
+}
+
+#highScoresList
+{
+  width: 200px;
+  height: 80px;
+  margin-left: 900px;
+  margin-top:5px;
+}
+
+
+
+@keyframes movement {
+  0%   {left:0px; top:0px;}
+  50%  { left:200px; top:0px;}
+  100%  { left:400px; top:0px;}
+
+}
+
+
+@media(max-width: 600px)
+{
+  #Timec
+{
+  margin-left: 0px;
+}
+
+div#memory_board{
+  background:#CCC;
+  border:#999 1px solid;
+  width:200px;
+  height:200px;
+  padding:24px;
+  margin:0px auto;
+}
+
+
+.abcd
+{
+  width:40px;
+  height:40px;
+  border-radius: 8px;
+}
+
+
+}
+
+
